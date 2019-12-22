@@ -1,0 +1,26 @@
+{
+  "name": "@mediacodex/api-anime",
+  "version": "1.0.0",
+  "description": "API Microservice for anime",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://gitlab.com/mediacodex/backend/anime.git"
+  },
+  "author": "DeltaByte (https://gitlab.com/DeltaByte)",
+  "license": "MPL-2.0",
+  "bugs": {
+    "url": "https://gitlab.com/mediacodex/backend/anime/issues"
+  },
+  "homepage": "https://gitlab.com/mediacodex/backend/anime#readme",
+  "devDependencies": {
+    "eslint": "^6.8.0",
+    "eslint-config-standard": "^14.1.0",
+    "eslint-plugin-import": "^2.19.1",
+    "eslint-plugin-node": "^10.0.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1"
+  }
+}
