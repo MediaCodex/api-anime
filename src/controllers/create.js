@@ -1,6 +1,6 @@
 import Koa from 'koa'
 import Joi from '@hapi/joi'
-import { wrapper } from '../helpers'
+import { wrapper, validateBody } from '../helpers'
 import Anime from '../models/anime'
 
 /**
@@ -10,12 +10,12 @@ const app = new Koa()
 
 /**
  * Request validation
- * 
+ *
  * TODO: confirm remote IDs, normalise
  *
  * @constant {Joi.Schema} validation
  */
-const validation = Joi.object({
+const requestSchema = Joi.object({
   title: Joi.string().min(3).max(255).required().trim(),
   synopsis: Joi.string().max(1024).trim(),
   type: Joi.string().valid('series', 'movie').required(),
@@ -34,6 +34,7 @@ const validation = Joi.object({
   duration: Joi.number().min(1).max(300).required(),
   rating: Joi.string().valid('PG', '12', '15', '18').required() // TODO: regional
 }).required()
+app.use(validateBody(requestSchema))
 
 /**
  * Function logic
