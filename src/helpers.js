@@ -29,11 +29,11 @@ export const wrapper = (app) => {
  */
 export const validateBody = (schema, options) => async function validator (ctx, next) {
   let validated; try {
-    validated = await schema.validateAsync(ctx.body, { abortEarly: false, stripUnknown: true, ...options })
+    validated = await schema.validateAsync(ctx.request.body, { abortEarly: false, stripUnknown: true, ...options })
   } catch (error) {
     if (error.name !== 'ValidationError') throw error
     const removeValues = (field) => { delete field.context.value; return field }
-    validated.details.map(removeValues)
+    error.details.map(removeValues)
     ctx.body = { error: 'ValidationError', fields: error.details }
     ctx.status = 400
     return
