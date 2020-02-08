@@ -12,8 +12,7 @@ const schemaAttributes = {
   id: {
     type: String,
     hashKey: true,
-    required: true,
-    validate: /[\w-]{36}/
+    required: true
   }
 }
 
@@ -22,7 +21,7 @@ const schemaAttributes = {
  *
  * @constant {string} modelName
  */
-const modelName = process.env.DYNAMODB_TABLE_ANIME || 'anime'
+const modelName = process.env.DYNAMODB_TABLE_STUDIOS || 'studios'
 
 /**
  * Model config, primarily this is to prevent Dynamoose from
@@ -45,11 +44,29 @@ const modelOptions = {
  * @constant {object} schemaOptions
  */
 const schemaOptions = {
-  saveUnknown: true // TODO: resolve via validation?
+  saveUnknown: true // NOTE: assumed to have been handled by controller validation
+}
+
+/**
+ * Inflate IDs into details for denormalisation
+ *
+ * @param {(string|Array<string>)} id single, or array of UUIDs
+ */
+const inflateById = async function (ids) {
+  if (!Array.isArray(ids)) ids = [ids]
+  const items = await this.batchGet(ids)
+  return ids.map(id => {
+    const item = items.find(item => item.id === id)
+    if (!item) return undefined
+    return {
+      // TODO: filter keys to keep
+    }
+  })
 }
 
 /**
  * Dynamoose model
  */
 const schema = new dynamoose.Schema(schemaAttributes, schemaOptions)
+schema.statics = { inflateById }
 export default dynamoose.model(modelName, schema, modelOptions)

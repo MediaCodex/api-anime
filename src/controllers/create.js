@@ -1,12 +1,16 @@
 import Koa from 'koa'
 import Joi from '@hapi/joi'
-import { wrapper, validateBody } from '../helpers'
+import bodyParser from 'koa-bodyparser'
+import { wrapper } from '../helpers'
+import { validateBody, fetchExternals } from '../middleware'
 import Anime from '../models/anime'
+import Studio from '../models/studio'
 
 /**
  * Initialise Koa
  */
 const app = new Koa()
+app.use(bodyParser())
 
 /**
  * Request validation
@@ -23,9 +27,9 @@ const requestSchema = Joi.object({
   status: Joi.string().valid('planned', 'airing', 'completed').required(),
   aired: Joi.date(), // TODO: started/ended for series, normal broadcasting time
   premiered: Joi.date(), // TODO: regional
-  producers: Joi.array().items(Joi.string().uuid()),
-  licensors: Joi.array().items(Joi.string().uuid()), // TODO: regional
-  studios: Joi.array().items(Joi.string().uuid()),
+  producers: Joi.array().max(100).items(Joi.string().uuid()),
+  licensors: Joi.array().max(100).items(Joi.string().uuid()), // TODO: regional
+  studios: Joi.array().max(100).items(Joi.string().uuid()),
   source: Joi.object({
     type: Joi.string().valid('original', 'manga', 'light-novel').required(), // TODO: confirm possibilities
     id: Joi.string().uuid().when('type', { not: 'original', then: Joi.required() })
@@ -35,6 +39,9 @@ const requestSchema = Joi.object({
   rating: Joi.string().valid('PG', '12', '15', '18').required() // TODO: regional
 }).required()
 app.use(validateBody(requestSchema))
+app.use(fetchExternals({
+  studios: Studio.inflateById
+}))
 
 /**
  * Function logic
@@ -42,7 +49,8 @@ app.use(validateBody(requestSchema))
  * @param {Koa.Context} ctx
  */
 const handler = async (ctx) => {
-  //
+  await Anime.create(ctx.request.body)
+  ctx.status = 201
 }
 
 /**

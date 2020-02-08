@@ -10,3 +10,5 @@ export const awsConfigMock = {
   secretAccessKey: 'secret',
   region: 'local-env'
 }
+
+export const ctxRequestBody = (body = {}) => ({ request: { body } })
