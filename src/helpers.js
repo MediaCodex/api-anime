@@ -1,4 +1,4 @@
-const serverless = require('serverless-http')
+import serverless from 'serverless-http'
 
 /**
  * Either return an AWS Lambda handler or init
