@@ -1,4 +1,5 @@
 tmp*.js
+build/*
 
 # Created by https://www.gitignore.io/api/node,code,terraform
 # Edit at https://www.gitignore.io/?templates=node,code,terraform
