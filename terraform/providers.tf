@@ -35,3 +35,15 @@ provider "aws" {
   }
 }
 
+data "terraform_remote_state" "core" {
+  backend   = "s3"
+  workspace = terraform.workspace
+  config = {
+    bucket       = "terraform-state-mediacodex"
+    key          = "core.tfstate"
+    region       = "eu-central-1"
+    role_arn     = "arn:aws:iam::939514526661:role/remotestate/website"
+    session_name = "terraform"
+  }
+}
+

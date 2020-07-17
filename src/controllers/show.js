@@ -1,13 +1,11 @@
 import Koa from 'koa'
 import { wrapper } from '../helpers'
-import { pathParams } from '../middleware'
 import Anime from '../models/anime'
 
 /**
  * Initialise Koa
  */
 const app = new Koa()
-app.use(pathParams('/:id'))
 
 /**
  * Function logic
@@ -15,7 +13,8 @@ app.use(pathParams('/:id'))
  * @param {Koa.Context} ctx
  */
 const handler = async (ctx) => {
-  const id = ctx.params.id
+  const path = ctx.path.split('/')
+  const id = path[path.length - 1]
 
   if (!id) {
     ctx.throw(400, 'ID required')

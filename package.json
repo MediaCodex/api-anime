@@ -35,7 +35,6 @@
     "esm": "^3.2.25",
     "koa": "^2.13.0",
     "koa-bodyparser": "^4.3.0",
-    "path-parser": "^6.1.0",
     "serverless-http": "^2.5.0"
   }
 }

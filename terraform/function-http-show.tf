@@ -25,3 +25,18 @@ module "lambda_http_show_dynamodb" {
   table  = aws_dynamodb_table.anime.arn
   read   = true
 }
+
+resource "aws_apigatewayv2_route" "show" {
+  api_id    = data.terraform_remote_state.core.outputs.gateway_id
+  route_key = "GET /anime/{id}"
+  target    = "integrations/${aws_apigatewayv2_integration.show.id}"
+}
+
+resource "aws_apigatewayv2_integration" "show" {
+  api_id           = data.terraform_remote_state.core.outputs.gateway_id
+  integration_type = "AWS_PROXY"
+
+  connection_type           = "INTERNET"
+  integration_method        = "POST"
+  integration_uri           = aws_lambda_function.http_show.invoke_arn
+}

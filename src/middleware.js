@@ -1,25 +1,4 @@
 import Joi from '@hapi/joi'
-import { Path } from 'path-parser'
-
-/**
- * Parse the Path paramters from path or eventContext
- *
- * @param {string} path
- * @returns {import('koa').Middleware}
- */
-export const pathParams = path => async (ctx, next) => {
-  // const environment = process.env.NODE_ENV || 'local'
-
-  // if (environment !== 'local') {
-  //   ctx.params = ctx.req.requestContext.pathParameters || {}
-  // }
-
-  const pathPrefix = process.env.PATH_PREFIX || ''
-  const parser = new Path(pathPrefix + path)
-  ctx.params = parser.test(ctx.request.path)
-
-  await next()
-}
 
 /**
  * Validate request body, or return validation-failed response
