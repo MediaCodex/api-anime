@@ -1,11 +1,13 @@
 import Koa from 'koa'
 import { wrapper } from '../helpers'
+import { pathParams } from '../middleware'
 import Anime from '../models/anime'
 
 /**
  * Initialise Koa
  */
 const app = new Koa()
+app.use(pathParams('/:id'))
 
 /**
  * Function logic
@@ -13,8 +15,8 @@ const app = new Koa()
  * @param {Koa.Context} ctx
  */
 const handler = async (ctx) => {
-  const perPage = 10 // TODO: add proper pagination based on HTTP headers
-  ctx.body = await Anime.query().limit(perPage).exec()
+  const id = ctx.request.path
+  ctx.body = await Anime.get(id)
   ctx.status = 200
 }
 
