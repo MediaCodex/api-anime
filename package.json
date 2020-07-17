@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "API Microservice for anime",
   "scripts": {
-    "test": "jest --coverage"
+    "test": "jest --coverage",
+    "build": "webpack"
   },
   "repository": {
     "type": "git",
@@ -16,23 +17,25 @@
   },
   "homepage": "https://gitlab.com/mediacodex/backend/anime#readme",
   "devDependencies": {
-    "@babel/core": "^7.8.4",
-    "@babel/preset-env": "^7.8.4",
-    "babel-jest": "^25.1.0",
     "eslint": "^6.8.0",
-    "eslint-config-standard": "^14.1.0",
-    "eslint-plugin-import": "^2.19.1",
+    "eslint-config-standard": "^14.1.1",
+    "eslint-plugin-import": "^2.22.0",
     "eslint-plugin-node": "^10.0.0",
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.1",
-    "jest": "^25.1.0"
+    "jest": "^25.5.4",
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.12",
+    "zip-webpack-plugin": "^3.0.0"
   },
   "dependencies": {
-    "@hapi/joi": "^17.0.2",
+    "@hapi/joi": "^17.1.1",
     "axios": "^0.19.2",
     "dynamoose": "^1.11.1",
-    "koa": "^2.11.0",
-    "koa-bodyparser": "^4.2.1",
-    "serverless-http": "^2.3.0"
+    "esm": "^3.2.25",
+    "koa": "^2.13.0",
+    "koa-bodyparser": "^4.3.0",
+    "path-parser": "^6.1.0",
+    "serverless-http": "^2.5.0"
   }
 }

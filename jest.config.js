@@ -21,6 +21,6 @@ module.exports = {
     'jest-helpers.js'
   ],
   transform: {
-    '^.+\\.[t|j]sx?$': 'babel-jest'
+    '^.+\\.[t|j]sx?$': 'esm'
   }
 }
