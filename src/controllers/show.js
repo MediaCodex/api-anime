@@ -15,8 +15,19 @@ app.use(pathParams('/:id'))
  * @param {Koa.Context} ctx
  */
 const handler = async (ctx) => {
-  const id = ctx.request.pathParams.id
-  ctx.body = await Anime.get(id)
+  const id = ctx.params.id
+
+  if (!id) {
+    ctx.throw(400, 'ID required')
+  }
+
+  const anime = await Anime.get(id)
+
+  if (!anime) {
+    ctx.throw(404, 'Anime not found')
+  }
+
+  ctx.body = anime
   ctx.status = 200
 }
 
