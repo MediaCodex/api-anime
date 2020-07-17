@@ -5,7 +5,7 @@ resource "aws_lambda_function" "http_create" {
   // handler
   source_code_hash = filebase64sha256("../build/http-create.zip")
   filename         = "../build/http-create.zip"
-  handler          = "handler"
+  handler          = "http-create.handler"
 
   // runtime
   runtime = "nodejs12.x"
