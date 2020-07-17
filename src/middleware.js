@@ -7,7 +7,7 @@ import { Path } from 'path-parser'
  * @param {string} path
  * @returns {import('koa').Middleware}
  */
-export const pathParams = path => async (ctx) => {
+export const pathParams = path => async (ctx, next) => {
   const environment = process.env.NODE_ENV || 'local'
 
   if (environment !== 'local') {
@@ -18,6 +18,8 @@ export const pathParams = path => async (ctx) => {
     const parser = new Path(path)
     ctx.request.pathParams = parser.test(ctx.request.path)
   }
+
+  await next()
 }
 
 /**
