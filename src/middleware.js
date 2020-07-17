@@ -8,16 +8,15 @@ import { Path } from 'path-parser'
  * @returns {import('koa').Middleware}
  */
 export const pathParams = path => async (ctx, next) => {
-  const environment = process.env.NODE_ENV || 'local'
+  // const environment = process.env.NODE_ENV || 'local'
 
-  if (environment !== 'local') {
-    ctx.request.pathParams = ctx.request.requestContext.pathParameters
-  }
+  // if (environment !== 'local') {
+  //   ctx.params = ctx.req.requestContext.pathParameters || {}
+  // }
 
-  if (environment === 'local') {
-    const parser = new Path(path)
-    ctx.request.pathParams = parser.test(ctx.request.path)
-  }
+  const pathPrefix = process.env.PATH_PREFIX || ''
+  const parser = new Path(pathPrefix + path)
+  ctx.params = parser.test(ctx.request.path)
 
   await next()
 }
