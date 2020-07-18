@@ -1,4 +1,6 @@
 import Joi from '@hapi/joi'
+import jsonError from 'koa-json-error'
+import R from 'ramda'
 
 /**
  * Validate request body, or return validation-failed response
@@ -60,4 +62,16 @@ export const fetchExternals = (mapping) => async function fetchExternals (ctx, n
   if (ctx.status === 400) return
 
   await next()
+}
+
+/**
+ * Apply default middlewares
+ *
+ * @param {import('koa').Koa} app
+ */
+export const applyDefaults = (app) => {
+  const isProd = () => process.env.NODE_ENV !== 'production'
+
+  // format error as JSON, omit stacktrace in prod
+  app.use(jsonError({ postFormat: (e, obj) => R.when(isProd, R.omit(['stack']))(obj) }))
 }

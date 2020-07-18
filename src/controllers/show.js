@@ -1,11 +1,13 @@
 import Koa from 'koa'
 import { wrapper } from '../helpers'
+import { applyDefaults } from '../middleware'
 import Anime from '../models/anime'
 
 /**
  * Initialise Koa
  */
 const app = new Koa()
+applyDefaults(app)
 
 /**
  * Function logic
