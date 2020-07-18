@@ -1,7 +1,7 @@
 import Koa from 'koa'
 import Joi from '@hapi/joi'
 import bodyParser from 'koa-bodyparser'
-import { wrapper } from '../helpers'
+import { wrapper, nanoid } from '../helpers'
 import { validateBody, fetchExternals } from '../middleware'
 import Anime from '../models/anime'
 import Studio from '../models/studio'
@@ -21,6 +21,7 @@ app.use(bodyParser())
  */
 const requestSchema = Joi.object({
   title: Joi.string().min(3).max(255).required().trim(),
+  slug: Joi.string().min(3).max(502).regex(/^[a-zA-Z0-9-]+$/).required(), // 512 chars, accounting for ID
   synopsis: Joi.string().max(1024).trim(),
   type: Joi.string().valid('series', 'movie').required(),
   episodes: Joi.number().when('type', { is: 'series', then: Joi.required() }),
@@ -49,7 +50,7 @@ app.use(fetchExternals({
  * @param {Koa.Context} ctx
  */
 const handler = async (ctx) => {
-  await Anime.create(ctx.request.body)
+  await Anime.create({ ...ctx.request.body, id: nanoid() })
   ctx.status = 201
 }
 

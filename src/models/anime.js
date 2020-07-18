@@ -13,7 +13,7 @@ const schemaAttributes = {
     type: String,
     hashKey: true,
     required: true,
-    validate: /[\w-]{36}/
+    validate: /[\w]{10}/
   }
 }
 

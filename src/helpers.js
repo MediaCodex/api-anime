@@ -1,4 +1,6 @@
 import serverless from 'serverless-http'
+import { customAlphabet } from 'nanoid'
+import { nolookalikes } from 'nanoid-dictionary'
 
 /**
  * Either return an AWS Lambda handler or init
@@ -19,3 +21,10 @@ export const wrapper = (app) => {
   app.listen(3000)
   console.info('listening at http://127.0.0.1:3000')
 }
+
+/**
+ * Generate a short ID for use as a primary key
+ *
+ * @returns {string}
+ */
+export const nanoid = customAlphabet(nolookalikes, 10)
